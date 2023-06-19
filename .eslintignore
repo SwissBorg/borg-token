@@ -1,0 +1,12 @@
+.github
+.husky
+.idea
+.openzeppelin
+abi
+artifacts
+archive
+cache
+contracts
+coverage
+node_modules
+typechain-types
