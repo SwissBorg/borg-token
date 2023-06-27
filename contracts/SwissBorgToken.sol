@@ -18,6 +18,7 @@ contract SwissBorgToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
     /// @notice Creates a SwissBorgToken
     /// @param _migrator The ChsbToBorgMigrator contract address which is in charge of migrating the tokens.
     constructor(address _migrator) ERC20("SwissBorg Token", "BORG") ERC20Permit("SwissBorg Token") {
+        require(_migrator != address(0), "ADDRESS_ZERO");
         // The mint amount is the supply minus everything that has been burned and that can't be migrated.
         _mint(_migrator, INITIAL_SUPPLY - BURNED_AMOUNT);
     }

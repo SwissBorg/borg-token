@@ -11,14 +11,26 @@ describe("SwissBorg Token", function () {
   let chsb: Contract;
   let borg: SwissBorgToken;
 
+  const zeroAddress = "0x0000000000000000000000000000000000000000";
+
   before(async function () {
     [migrator] = await ethers.getSigners();
     chsb = await ethers.getContractAt(erc20Abi, "0xba9d4199faB4f26eFE3551D490E3821486f135Ba");
   });
 
   describe("Deployment", function () {
+    let SwissBorgToken;
+
+    before(async function () {
+      SwissBorgToken = await ethers.getContractFactory("SwissBorgToken");
+    });
+
+    it("Should not be able to deploy with address(0) for migrator", async function () {
+      const tx = SwissBorgToken.deploy(zeroAddress);
+      await expect(tx).to.be.revertedWith("ADDRESS_ZERO");
+    });
+
     it("Should be able to deploy", async function () {
-      const SwissBorgToken = await ethers.getContractFactory("SwissBorgToken");
       borg = (await SwissBorgToken.deploy(migrator.address)) as SwissBorgToken;
       expect(borg.address).to.not.be.eq("0x0000000000000000000000000000000000000000");
     });
