@@ -13,6 +13,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
 contract ChsbToBorgMigrator is OwnableUpgradeable, PausableUpgradeable, UUPSUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
+    /// @notice The initial supply of $CHSB that will be migrated to $BORG.
+    uint256 internal constant INITIAL_CHSB_SUPPLY = 1_000_000_000 * 10**8;
+    /// @notice $CHSB has 8 decimals while $BORG has 18 decimals. We need to add 10 ** 10 to the amount of $BORG sent.
+    uint256 internal constant DECIMALS_SCALE = 10**10;
+
     /// @notice The contract address of $CHSB.
     IERC20Upgradeable public CHSB;
     /// @notice The contract address of $BORG.
@@ -49,7 +54,7 @@ contract ChsbToBorgMigrator is OwnableUpgradeable, PausableUpgradeable, UUPSUpgr
     /// @param _borg The contract address of the $BORG token.
     /// @param owner_ The address of the owner of the contract.
     /// @param _manager The address of the owner of the contract.
-    function initialize(address _chsb, address _borg, address owner_, address _manager) public initializer {
+    function initialize(address _chsb, address _borg, address owner_, address _manager) external initializer {
         require(_chsb != address(0), "ADDRESS_ZERO");
         require(_borg != address(0), "ADDRESS_ZERO");
         require(owner_ != address(0), "ADDRESS_ZERO");
@@ -72,16 +77,13 @@ contract ChsbToBorgMigrator is OwnableUpgradeable, PausableUpgradeable, UUPSUpgr
     /// @notice Migrates the $CHSB to $BORG.
     /// @param _amount The amount of $CHSB to migrate.
     function migrate(uint256 _amount) external whenNotPaused {
-        require(IERC20Upgradeable(CHSB).totalSupply() == 1_000_000_000 * 10 ** 8, "CHSB_SUPPLY_WRONG");
+        require(IERC20Upgradeable(CHSB).totalSupply() == INITIAL_CHSB_SUPPLY, "CHSB_SUPPLY_WRONG");
         require(_amount > 0, "AMOUNT_ZERO");
-
-        // $CHSB has 8 decimals while $BORG has 18 decimals. We need to add 10 ** 10 to the amount of $BORG sent.
-        uint256 decimalsScale = 10 ** 10;
 
         // Migrate
         totalChsbMigrated = totalChsbMigrated + _amount;
         CHSB.safeTransferFrom(msg.sender, address(this), _amount);
-        BORG.safeTransfer(msg.sender, _amount * decimalsScale);
+        BORG.safeTransfer(msg.sender, _amount * DECIMALS_SCALE);
 
         emit ChsbMigrated(msg.sender, _amount);
     }
