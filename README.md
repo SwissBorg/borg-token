@@ -59,6 +59,8 @@ The contract is composed of two roles:
 - `manager`: which can pause the migration.
   - The `manager` will be a 3-out-of-5 multisig. Its composition is in the process of being decided. This will feature no Timelock as the goal is to be able to pause the contract in case anything wrong happens.
 
+There is an unused variable in the code called `totalChsbMigrated` which will be used for the website.
+
 _The `ChsbToBorgMigrator` is released under the AGPL 3.0 license._
 
 ### mock/MintableErc20.sol
