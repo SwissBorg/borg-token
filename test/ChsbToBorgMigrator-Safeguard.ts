@@ -87,7 +87,7 @@ describe("ChsbToBorgMigrator-Safeguard", function () {
       // Reset supply to 1 billion
       await fakeChsb.connect(swissBorgWallet).burn(migrationAmount);
       // Send the CHSB to address(0)
-      const burnedChsb = ethers.utils.parseUnits("14316585358", "5"); // 14'316'585.358 CHSB with (8 - 3 = 5) decimals
+      const burnedChsb = ethers.utils.parseUnits("14695131558", "5"); // 14'316'585.358 CHSB with (8 - 3 = 5) decimals
       await fakeChsb.connect(swissBorgWallet).transfer(oneAddress, burnedChsb);
     });
   });
@@ -95,8 +95,8 @@ describe("ChsbToBorgMigrator-Safeguard", function () {
   describe("Migrate all", function () {
     it("Should be possible to migrate all the CHSB that exists", async function () {
       // The migration amount must take into account the CHSB burnt.
-      const migrationAmount = ethers.utils.parseUnits("985683414642", "5"); // CHSB, 8 decimals, 985'683'414.642 CHSB with (8 - 3 = 5) decimals
-      const expectedBorgAmount = ethers.utils.parseUnits("985683414642", "15"); // BORG, 18 decimals, 985'683'414.642 CHSB with (18 - 3 = 5) decimals
+      const migrationAmount = ethers.utils.parseUnits("985304868442", "5"); // CHSB, 8 decimals, 985'683'414.642 CHSB with (8 - 3 = 5) decimals
+      const expectedBorgAmount = ethers.utils.parseUnits("985304868442", "15"); // BORG, 18 decimals, 985'683'414.642 CHSB with (18 - 3 = 5) decimals
 
       const initialWalletChsbBalance = await fakeChsb.balanceOf(swissBorgWallet.address);
       const initialWalletBorgBalance = await borg.balanceOf(swissBorgWallet.address);

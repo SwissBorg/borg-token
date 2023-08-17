@@ -20,12 +20,7 @@ async function main() {
   const borg = (await SwissBorgToken.deploy(migratorAddress)) as SwissBorgToken;
 
   // Deploy Migrator
-  const migratorArgs = [
-    chsbAddress,
-    "0xC5a86570bb55c1109c92A9523F93fE6a89dE2C77", //borg.address,
-    owner,
-    manager,
-  ];
+  const migratorArgs = [chsbAddress, borg.address, owner, manager];
   const ChsbToBorgMigrator = await ethers.getContractFactory("ChsbToBorgMigrator");
   const migrator = (await upgrades.deployProxy(ChsbToBorgMigrator, migratorArgs)) as ChsbToBorgMigrator;
 

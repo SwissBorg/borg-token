@@ -119,7 +119,7 @@ describe("ChsbToBorgMigrator", function () {
     });
 
     it("Should have $BORG tokens", async function () {
-      const expectedBorg = ethers.utils.parseUnits("985683414642", "15"); // see BORG supply
+      const expectedBorg = ethers.utils.parseUnits("985304868442", "15"); // see BORG supply
       expect(await borg.balanceOf(migrator.address)).to.be.eq(expectedBorg);
     });
   });

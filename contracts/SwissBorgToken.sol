@@ -13,7 +13,7 @@ contract SwissBorgToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
     /// @notice The initial supply of $CHSB that will be migrated to $BORG.
     uint256 internal constant INITIAL_SUPPLY = 1_000_000_000 * 10**18;
     /// @notice The number of $CHSB sent to address(0).
-    uint256 internal constant BURNED_AMOUNT = 14_316_585_358 * 10**15;
+    uint256 internal constant BURNED_AMOUNT = 14_695_131_558 * 10**15;
 
     /// @notice Creates a SwissBorgToken
     /// @param _migrator The ChsbToBorgMigrator contract address which is in charge of migrating the tokens.
