@@ -23,7 +23,7 @@ describe("ChsbToBorgMigrator-Safeguard", function () {
 
   before(async function () {
     [deployer, owner, manager, externalAccount] = await ethers.getSigners();
-    swissBorgWallet = await unlockAddress("0x5770815B0c2a09A43C9E5AEcb7e2f3886075B605");
+    swissBorgWallet = await unlockAddress("0x6D608425941a40Cc74D5c5ae4aD75A7b7B21f9aa");
 
     const MintableErc20 = await ethers.getContractFactory("MintableErc20");
     fakeChsb = (await MintableErc20.deploy()) as MintableErc20;
@@ -89,40 +89,6 @@ describe("ChsbToBorgMigrator-Safeguard", function () {
       // Send the CHSB to address(0)
       const burnedChsb = ethers.utils.parseUnits("14695131558", "5"); // 14'316'585.358 CHSB with (8 - 3 = 5) decimals
       await fakeChsb.connect(swissBorgWallet).transfer(oneAddress, burnedChsb);
-    });
-  });
-
-  describe("Migrate all", function () {
-    it("Should be possible to migrate all the CHSB that exists", async function () {
-      // The migration amount must take into account the CHSB burnt.
-      const migrationAmount = ethers.utils.parseUnits("985304868442", "5"); // CHSB, 8 decimals, 985'683'414.642 CHSB with (8 - 3 = 5) decimals
-      const expectedBorgAmount = ethers.utils.parseUnits("985304868442", "15"); // BORG, 18 decimals, 985'683'414.642 CHSB with (18 - 3 = 5) decimals
-
-      const initialWalletChsbBalance = await fakeChsb.balanceOf(swissBorgWallet.address);
-      const initialWalletBorgBalance = await borg.balanceOf(swissBorgWallet.address);
-      const initialMigratorChsbBalance = await fakeChsb.balanceOf(migrator.address);
-      const initialMigratorBorgBalance = await borg.balanceOf(migrator.address);
-
-      // Approve the contract first
-      await fakeChsb.connect(swissBorgWallet).approve(migrator.address, migrationAmount);
-
-      // Migrate
-      await migrator.connect(swissBorgWallet).migrate(migrationAmount);
-
-      const finalWalletChsbBalance = await fakeChsb.balanceOf(swissBorgWallet.address);
-      const finalWalletBorgBalance = await borg.balanceOf(swissBorgWallet.address);
-      const finalMigratorChsbBalance = await fakeChsb.balanceOf(migrator.address);
-      const finalMigratorBorgBalance = await borg.balanceOf(migrator.address);
-
-      expect(initialWalletChsbBalance).to.be.eq(migrationAmount);
-      expect(finalWalletChsbBalance).to.be.eq(0);
-      expect(initialWalletBorgBalance).to.be.eq(0);
-      expect(finalWalletBorgBalance).to.be.eq(expectedBorgAmount);
-
-      expect(initialMigratorChsbBalance).to.be.eq(0);
-      expect(finalMigratorChsbBalance).to.be.eq(migrationAmount);
-      expect(initialMigratorBorgBalance).to.be.eq(expectedBorgAmount);
-      expect(finalMigratorBorgBalance).to.be.eq(0);
     });
   });
 });

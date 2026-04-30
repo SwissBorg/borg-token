@@ -14,6 +14,7 @@ describe("ChsbToBorgMigrator", function () {
   let manager: SignerWithAddress;
   let swissBorgWallet: SignerWithAddress;
   let externalAccount: SignerWithAddress;
+  let chsbHolderWallet: SignerWithAddress;
 
   let migrator: ChsbToBorgMigrator;
   let chsb: Contract;
@@ -23,7 +24,7 @@ describe("ChsbToBorgMigrator", function () {
 
   before(async function () {
     [deployer, owner, manager, externalAccount] = await ethers.getSigners();
-    swissBorgWallet = await unlockAddress("0x5770815B0c2a09A43C9E5AEcb7e2f3886075B605");
+    swissBorgWallet = await unlockAddress("0x91D40E4818F4D4C57b4578d9ECa6AFc92aC8DEbE"); // Note: Not the SwissBorg wallet anymore, but a wallet that holds CHSB
 
     chsb = await ethers.getContractAt(erc20Abi, "0xba9d4199faB4f26eFE3551D490E3821486f135Ba");
 

@@ -23,7 +23,7 @@
     "@types/node": "^20.1.2",
     "chai": "^4.3.7",
     "ethers": "^5.7.2",
-    "hardhat": "^2.14.0",
+    "hardhat": "^2.22.0",
     "hardhat-gas-reporter": "^1.0.9",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
@@ -36,6 +36,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.0",
     "@openzeppelin/contracts-upgradeable": "^4.9.0",
+    "@tenderly/hardhat-tenderly": "^2.5.2",
     "dotenv": "^16.0.3",
     "solhint": "^3.4.1"
   },
